@@ -1,0 +1,71 @@
+from news.models import *
+
+u1 = User.objects.create_user(username='David')
+u2 = User.objects.create_user(username='Max')
+
+Author.objects.create(authorUser=u1)
+Author.objects.create(authorUser=u2)
+
+Category.objects.create(name='Culture')
+Category.objects.create(name='Medicine')
+Category.objects.create(name='IT')
+Category.objects.create(name='Politics')
+
+author_1 = Author.objects.get(id=1)
+author_2 = Author.objects.get(id=2)
+Post.objects.create(author=author_1, category_type='AR', title='music', text='what happened to the music?') 
+Post.objects.create(author=author_2, category_type='AR', title='meat', text='red meat is very unhealthy') 
+Post.objects.create(author=author_1, category_type='NW', title='panda', text='panda slept all day, woke up and go to eat')
+
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=2)) 
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=4)) 
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=1)) 
+
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='nice words bro')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text='а куда тут нажимать')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='wake up') 
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, text='лучше новостей для вас у меня нет') 
+
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike() 
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=2).like()                                                                                                                      
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()   
+Comment.objects.get(id=2).dislike()                                                                                                                   
+Comment.objects.get(id=2).dislike()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).dislike()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+
+Author.objects.get(id=1)
+a = Author.objects.get(id=1) 
+a.update_rating()
+a.ratingAuthor
+b = Author.objects.get(id=2) 
+b.update_rating()
+b.ratingAuthor
+
+a = Author.objects.order_by('-ratingAuthor')    
+a
+for i in a:
+    i.ratingAuthor
+    i.authorUser.username
+
+post = Post.objects.order_by('-rating')[:1]
+for d in post:
+    d.author
+    d.dateCreation
+    d.rating
+    d.title
+
+for j in post:
+    j.comment_set.all()
+
